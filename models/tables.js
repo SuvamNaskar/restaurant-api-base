@@ -5,11 +5,7 @@ const tableSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	row: {
-		type: Number,
-		required: true
-	},
-	column: {
+	number: {
 		type: Number,
 		required: true
 	},
@@ -22,7 +18,8 @@ const tableSchema = new mongoose.Schema({
 		required: true
 	},
 	price: {
-		type: Number
+		type: Number,
+		required: true
 	},
 	checkIn: {
 		type: Date
