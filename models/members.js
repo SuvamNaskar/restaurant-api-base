@@ -31,6 +31,14 @@ const memberSchema = new mongoose.Schema({
 	},
 	membershipExpiry: {
 		type: Date
+	},
+	password: {
+		type: String,
+		required: true
+	},
+	username: {
+		type: String,
+		required: true
 	}
 });
 
