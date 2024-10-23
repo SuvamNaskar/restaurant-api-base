@@ -4,11 +4,11 @@ const memberController = require('../controllers/Member');
 
 router.get('/', memberController.getMembers);
 
-router.get('/name/:name', memberController.getMemberByName);
+router.get('/:name', memberController.getMemberByName);
 
-router.post('/', memberController.postMembers);
+router.post('/create', memberController.postMembers);
 
-router.patch('/name/:name', memberController.updateMemberByName);
+router.patch('/update/:name', memberController.updateMemberByName);
 
 router.delete('/', memberController.deleteMemberByName);
 

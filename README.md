@@ -2,12 +2,13 @@
 This is the API base for my restaurant app
 
 
-## Dependancies
+## Dependencies
  - express
  - mongoose
  - dotenv
-  > npm i express mongoose dotenv
+ - bcryptjs
+  > npm i express mongoose dotenv bcryptjs
 
-## Dev-Dependancies
+## Dev-dependencies
  - Nodemon
   > npm i nodemon -D
