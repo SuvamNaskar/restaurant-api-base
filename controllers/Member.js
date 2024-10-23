@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require("dotenv").config();
+const bcrypt = require('bcryptjs');
 
 const Member = require('../models/members');
 
@@ -33,13 +34,21 @@ exports.getMemberByName = async (req, res) => {
 };
 
 exports.postMembers = async (req, res) => {
+	let pass = '';
+	bcrypt.genSalt(10, (err, salt) => {
+		bcrypt.hash(req.body.password, salt, (err, hash) => {
+			pass = hash;
+		});
+	});
 	const member = new Member({
 		name: req.body.name,
 		age: req.body.age,
 		phone: req.body.phone,
 		email: req.body.email,
 		address: req.body.address,
-		membership: req.body.membership
+		membership: req.body.membership,
+		username: req.body.username,
+		password: pass
 	});
 
 	try {
@@ -88,9 +97,26 @@ exports.updateMemberByName = async (req, res) => {
 				member.membershipExpiry = date.toDateString();
 			}
 		}
-
-		const updatedMember = await member.save();
-		res.json(updatedMember);
+		if (req.body.username != null) {
+			member.username = req.body.username;
+		}
+		if (req.body.password != null) {
+			try {
+				const salt = await bcrypt.genSalt(10);
+				const hash = await bcrypt.hash(req.body.password, salt);
+				member.password = hash;
+			} catch (error) {
+				console.error('Error hashing password:', error);
+				return res.status(500).json({ message: 'Internal server error' });
+			}
+		}
+		try {
+			const updatedMember = await member.save();
+			res.json(updatedMember);
+		} catch (error) {
+			console.error('Error saving member:', error);
+			res.status(500).json({ message: 'Error saving member' });
+		}
 	} catch (err) {
 		res.status(400).json({ message: err.message });
 	}
